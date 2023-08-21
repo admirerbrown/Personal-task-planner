@@ -6,6 +6,8 @@ const dotenv = require('dotenv');
 //load config
 dotenv.config({path: './Config/config.env'});
 
+const taskGroupRoute = require('./Routes/taskCategoryRoute');
+
 connectDb();
 
 const app = express();
@@ -13,6 +15,10 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+
+//routes
+app.use("/", taskGroupRoute);
 
 
 

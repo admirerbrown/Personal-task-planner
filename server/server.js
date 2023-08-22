@@ -7,6 +7,8 @@ const dotenv = require('dotenv');
 dotenv.config({path: './Config/config.env'});
 
 const taskGroupRoute = require('./Routes/taskCategoryRoute');
+const goalsRoute = require('./Routes/goalsRoutes');
+
 
 connectDb();
 
@@ -19,6 +21,8 @@ app.use(express.json());
 
 //routes
 app.use("/", taskGroupRoute);
+app.use("/", goalsRoute);
+
 
 
 

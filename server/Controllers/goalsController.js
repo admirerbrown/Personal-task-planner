@@ -64,12 +64,15 @@ const deleteGoal = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "operation successful"
+            message: "goal successfully deleted"
         })
 
     } catch (error) {
-        res.status(400).send('operation failed' + error);
-        console.log("couldn't complete action...");
+        return res.status(500).json({
+            success: false,
+            message: 'An error occurred while processing your request',
+            error: error.message,
+        });
     }
 }
 

@@ -11,7 +11,7 @@ const taskSchema = mongoose.Schema(
             required: true,
         },
         estimatedTime: {
-            type: Number,
+            type: String,
             required: true,
         },
         goal_id: {
@@ -21,6 +21,7 @@ const taskSchema = mongoose.Schema(
         status: {
             type: String,
             required: true,
+            default: "not started"
         }
     },
     {

@@ -1,4 +1,6 @@
 const goalsModel = require("../Models/goalsModel");
+const taskCategoryModel = require("../Models/taskCategoryModel");
+
 
 
 const getGoals = async (req, res) => {
@@ -25,16 +27,25 @@ const getGoals = async (req, res) => {
 
 const addGoal = async (req, res) => {
     try {
-        const newGoal = await goalsModel.create(req.body);
-        res.status(200).json({
-            success: true,
-            message: 'New goal created',
-            newGoal
-        })
-        console.log("action complete successfully...");
+        const { category_id } = req.body
+        const groupCheck = await taskCategoryModel.findById(category_id);
+
+        if (groupCheck) {
+            const newGoal = await goalsModel.create(req.body);
+            res.status(200).json({
+                success: true,
+                message: 'New goal created',
+                newGoal
+            })
+            console.log("action complete successfully...");
+        }
+
     } catch (error) {
-        res.status(400).send('operation failed' + error);
-        console.log("couldn't complete action...");
+        return res.status(500).json({
+            success: false,
+            message: 'An error occurred while processing your request. ensure to add a goal group',
+            error: error.message,
+        });
     }
 }
 

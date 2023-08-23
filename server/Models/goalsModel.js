@@ -14,6 +14,10 @@ const goalSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        // progress:{
+        //     type: Number,
+        //     default:0
+        // }
         
     },
 

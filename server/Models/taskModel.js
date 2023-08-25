@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const goalsModel = require("./goalsModel")
 
 const taskSchema = mongoose.Schema(
     {
@@ -15,7 +16,7 @@ const taskSchema = mongoose.Schema(
             required: true,
         },
         goal_id: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
         },
         status: {
@@ -27,7 +28,6 @@ const taskSchema = mongoose.Schema(
     {
         timestamps: true,
     }
-)
-
+);
 
 module.exports = mongoose.model("Task", taskSchema);

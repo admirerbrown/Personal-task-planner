@@ -1,29 +1,54 @@
 const goalsModel = require("../Models/goalsModel");
 const taskCategoryModel = require("../Models/taskCategoryModel");
-
-
+const taskModel = require("../Models/taskModel");
 
 const getGoals = async (req, res) => {
-    const goals = await goalsModel.find({})
-
     try {
-        if (goals) {
+        const goals = await goalsModel.find({}).populate('tasks'); // Populate the 'tasks' field
+
+        if (goals.length > 0) {
+            goals.forEach((goal) => {
+                const totalTasksCount = goal.tasks.length;
+                let completedTasksCount = 0;
+
+                if (totalTasksCount > 0) {
+                    goal.tasks.forEach((task) => {
+                        if (task.status === "completed") {
+                            completedTasksCount++;
+                        }
+                    });
+
+                    goal.progress = Math.floor((completedTasksCount / totalTasksCount) * 100);
+                    // TODO: update the progress in the database when task progress is update goal status is not updated in db but upon request
+                }
+            });
+
             res.status(200).json({
                 success: true,
-                message: "showing a list of all your goals",
+                message: "Showing a list of all your goals",
                 goals
-            })
+            });
         } else {
             res.status(200).json({
                 success: true,
                 message: "No goals available, please add some",
-                goals
+                goals: []
             });
         }
     } catch (error) {
-        res.status(400).send("error fetching your saved goals", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching your saved goals",
+            error: error.message
+        });
     }
-}
+};
+
+module.exports = {
+    getGoals
+};
+
+
 
 const addGoal = async (req, res) => {
     try {

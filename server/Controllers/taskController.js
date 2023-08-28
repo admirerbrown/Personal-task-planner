@@ -23,21 +23,34 @@ const getTasks = async (req, res) => {
     }
 }
 
+
 const addTask = async (req, res) => {
     try {
-        const { goal_id } = req.body
+        const { goal_id } = req.body;
         const goalCheck = await goalModel.findById(goal_id);
 
         if (goalCheck) {
-            const newTask = await taskModel.create(req.body);
+            const newTask = await taskModel.create({
+                ...req.body,
+                goal_id: goalCheck._id, // Associate the task with the goal
+            });
+
+            goalCheck.tasks.push(newTask._id); // Push the task's ObjectId to the goal's tasks array
+            await goalCheck.save(); // Save the updated goal
+
             res.status(200).json({
                 success: true,
                 message: 'New task created',
-                newTask
-            })
-            console.log("action complete successfully...");
-        }
+                newTask,
+            });
 
+            console.log("Action completed successfully...");
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'Goal not found',
+            });
+        }
     } catch (error) {
         return res.status(500).json({
             success: false,

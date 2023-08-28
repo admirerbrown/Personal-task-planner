@@ -1,29 +1,54 @@
 const goalsModel = require("../Models/goalsModel");
 const taskCategoryModel = require("../Models/taskCategoryModel");
 
-
-
 const getGoals = async (req, res) => {
-    const goals = await goalsModel.find({})
-
     try {
-        if (goals) {
+        const goals = await goalsModel.find({}).populate('tasks');
+
+        if (goals.length > 0) {
+            const updatedGoals = goals.map((goal) => {
+                const totalTasksCount = goal.tasks.length;
+                let completedTasksCount = 0;
+
+                if (totalTasksCount > 0) {
+                    goal.tasks.forEach((task) => {
+                        if (task.status === "completed") {
+                            completedTasksCount++;
+                        }
+                    });
+
+                    goal.progress = Math.floor((completedTasksCount / totalTasksCount) * 100);
+                }
+
+                return goal; // Return the goal with calculated progress
+            });
+
+            // Update the progress of goals in the database
+            updatedGoals.map(async (updatedGoal) => {
+                await updatedGoal.save(); // Save the entire goal with updated progress
+            });
+
             res.status(200).json({
                 success: true,
-                message: "showing a list of all your goals",
-                goals
-            })
+                message: "Showing a list of all your goals",
+                goals: updatedGoals
+            });
         } else {
             res.status(200).json({
                 success: true,
                 message: "No goals available, please add some",
-                goals
+                goals: []
             });
         }
     } catch (error) {
-        res.status(400).send("error fetching your saved goals", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching your saved goals",
+            error: error.message
+        });
     }
-}
+};
+
 
 const addGoal = async (req, res) => {
     try {

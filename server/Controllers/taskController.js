@@ -23,31 +23,6 @@ const getTasks = async (req, res) => {
     }
 }
 
-// const addTask = async (req, res) => {
-//     try {
-//         const { goal_id } = req.body
-//         const goalCheck = await goalModel.findById(goal_id);
-
-//         if (goalCheck) {
-//             const newTask = await taskModel.create(req.body);
-//             await goalCheck.tasks.push(newTask);
-
-//             res.status(200).json({
-//                 success: true,
-//                 message: 'New task created',
-//                 newTask
-//             })
-//             console.log("action complete successfully...");
-//         }
-
-//     } catch (error) {
-//         return res.status(500).json({
-//             success: false,
-//             message: 'An error occurred while processing your request.',
-//             error: error.message,
-//         });
-//     }
-// }
 
 const addTask = async (req, res) => {
     try {

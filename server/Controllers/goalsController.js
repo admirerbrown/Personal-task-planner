@@ -1,13 +1,12 @@
 const goalsModel = require("../Models/goalsModel");
 const taskCategoryModel = require("../Models/taskCategoryModel");
-const taskModel = require("../Models/taskModel");
 
 const getGoals = async (req, res) => {
     try {
-        const goals = await goalsModel.find({}).populate('tasks'); // Populate the 'tasks' field
+        const goals = await goalsModel.find({}).populate('tasks');
 
         if (goals.length > 0) {
-            goals.forEach((goal) => {
+            const updatedGoals = goals.map((goal) => {
                 const totalTasksCount = goal.tasks.length;
                 let completedTasksCount = 0;
 
@@ -19,14 +18,20 @@ const getGoals = async (req, res) => {
                     });
 
                     goal.progress = Math.floor((completedTasksCount / totalTasksCount) * 100);
-                    // TODO: update the progress in the database when task progress is update goal status is not updated in db but upon request
                 }
+
+                return goal; // Return the goal with calculated progress
+            });
+
+            // Update the progress of goals in the database
+            updatedGoals.map(async (updatedGoal) => {
+                await updatedGoal.save(); // Save the entire goal with updated progress
             });
 
             res.status(200).json({
                 success: true,
                 message: "Showing a list of all your goals",
-                goals
+                goals: updatedGoals
             });
         } else {
             res.status(200).json({
@@ -43,11 +48,6 @@ const getGoals = async (req, res) => {
         });
     }
 };
-
-module.exports = {
-    getGoals
-};
-
 
 
 const addGoal = async (req, res) => {

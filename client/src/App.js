@@ -1,9 +1,10 @@
 import './App.css';
+import HomePage  from './components/Home'
 
 function App() {
   return (
     <div className="App">
-      <h1 className="text-red-500">tailwindcss IS WORKING</h1>
+      <HomePage></HomePage>
     </div>
   );
 }

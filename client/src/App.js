@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App flex">
       <NavBar></NavBar>
-      <div className="viewer min-h-screen border w-full text-white border-blue-400 bg-purple-600">
+      <div className="viewer min-h-screen w-full text-white  bg-[rgb(244,248,251)]">
         <Routes>
           <Route path="/taskboard" element={<TaskBoard></TaskBoard>} />
         </Routes>

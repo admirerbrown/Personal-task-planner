@@ -5,10 +5,10 @@ module.exports = {
     extend: {
       fontFamily: {
         'Cormorant-Garamond': ['Cormorant Garamond', 'sans-serif'],
-        'IBM-Plex-Sans':[ 'IBM Plex Sans',' sans-serif'],
+        'IBM-Plex-Sans': ['IBM Plex Sans', ' sans-serif'],
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
 

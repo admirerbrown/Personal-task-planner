@@ -105,5 +105,4 @@ const NavBar = () => {
 
 export default NavBar;
 
-
 // TODO: MAKE NAVBAR RESPONSIVE ON MEDIA SCREENS FROM LARGE

@@ -2,6 +2,40 @@ import React, { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 
 const TaskBoard = () => {
+  function getRandomColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  }
+
+  function clearLocalStorageOnRefresh() {
+    // Check if the page is being refreshed
+    window.onbeforeunload = function () {
+      localStorage.removeItem("colorMap");
+    };
+  }
+
+  // Call this function to set up the event handler
+  clearLocalStorageOnRefresh();
+
+  function getColorForGoalTag(goalTag) {
+    let colorMap;
+
+    // Retrieve colorMap from Local Storage or create a new one
+    const storedColorMap = localStorage.getItem("colorMap");
+    if (storedColorMap) {
+      colorMap = JSON.parse(storedColorMap);
+    } else {
+      colorMap = {};
+    }
+
+    if (!colorMap.hasOwnProperty(goalTag)) {
+      colorMap[goalTag] = getRandomColor();
+
+      localStorage.setItem("colorMap", JSON.stringify(colorMap));
+    }
+
+    return colorMap[goalTag];
+  }
+
   const [tasks, setTasks] = useState([
     {
       _id: 1,
@@ -43,6 +77,14 @@ const TaskBoard = () => {
       status: "completed",
       goal_tag: "freelance",
     },
+    {
+      _id: 6,
+      title: "attend mock interviews for practice",
+      summary:
+        "use pramp to practice common technical and behavioral interview questions ",
+      status: "completed",
+      goal_tag: "interview prep",
+    },
   ]);
 
   const onDragOver = (ev) => {
@@ -62,8 +104,18 @@ const TaskBoard = () => {
 
     setTasks(updatedTasks);
 
+    console.log(updatedTasks);
     return updatedTasks;
   };
+
+  const in_progress = tasks.filter(
+    (task) => task.status === "in-progress"
+  ).length;
+  const completed = tasks.filter((task) => task.status === "completed").length;
+  const not_started = tasks.filter(
+    (task) => task.status === "not-started"
+  ).length;
+  const in_review = tasks.filter((task) => task.status === "in-review").length;
 
   const renderColumn = (status) => (
     <div
@@ -75,7 +127,13 @@ const TaskBoard = () => {
         <div className="flex gap-3 items-center">
           <h2 className="uppercase text-center font-medium">{status}</h2>
           <div className="h-5 w-5 bg-[#E0EAF3] border rounded justify-center flex text-sm">
-            4
+            {status === "in-progress"
+              ? in_progress
+              : status === "completed"
+              ? completed
+              : status === "not-started"
+              ? not_started
+              : in_review}
           </div>
         </div>
         <div className=" border-2 rounded-md border-dashed h-6 w-6 border-[#c9d8e3] flex justify-center items-center">
@@ -84,6 +142,7 @@ const TaskBoard = () => {
       </div>
       {tasks
         .filter((task) => task.status === status)
+
         .map((todo) => (
           <div
             className="card bg-base-100 shadow-md rounded-md cursor-move mt-4"
@@ -93,11 +152,12 @@ const TaskBoard = () => {
           >
             <div className="card-body">
               <h2 className="card-title capitalize text-sm ">{todo.title}</h2>
-              <p className="text-xs text-gray-400">
-                {todo.summary}
-              </p>
+              <p className="text-xs text-gray-400">{todo.summary}</p>
               <div className="card-actions justify-start">
-                <button className="btn-sm rounded-md btn-primary text-xs capitalize">
+                <button
+                  className="btn-sm rounded-md btn-primary text-xs capitalize text-white"
+                  style={{ backgroundColor: getColorForGoalTag(todo.goal_tag) }}
+                >
                   {todo.goal_tag}
                 </button>
               </div>
@@ -131,7 +191,6 @@ const TaskBoard = () => {
 };
 
 export default TaskBoard;
-
 
 //TODO: MAKE APP RESPONSE UPTO LARGE SCREENS
 //TODO: MAKE EACH CARD TAG HAS A UNIQUE COLOR BASE ON THE GOAL TAG IN THE EVERY TASK

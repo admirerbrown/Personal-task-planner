@@ -2,6 +2,40 @@ import React, { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 
 const TaskBoard = () => {
+  function getRandomColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  }
+
+  function clearLocalStorageOnRefresh() {
+    // Check if the page is being refreshed
+    window.onbeforeunload = function () {
+      localStorage.removeItem("colorMap");
+    };
+  }
+
+  // Call this function to set up the event handler
+  clearLocalStorageOnRefresh();
+
+  function getColorForGoalTag(goalTag) {
+    let colorMap;
+
+    // Retrieve colorMap from Local Storage or create a new one
+    const storedColorMap = localStorage.getItem("colorMap");
+    if (storedColorMap) {
+      colorMap = JSON.parse(storedColorMap);
+    } else {
+      colorMap = {};
+    }
+
+    if (!colorMap.hasOwnProperty(goalTag)) {
+      colorMap[goalTag] = getRandomColor();
+
+      localStorage.setItem("colorMap", JSON.stringify(colorMap));
+    }
+
+    return colorMap[goalTag];
+  }
+
   const [tasks, setTasks] = useState([
     {
       _id: 1,
@@ -42,6 +76,14 @@ const TaskBoard = () => {
         "seek code review from the community explaining the main features of the app and what could be improved or eliminated ",
       status: "completed",
       goal_tag: "freelance",
+    },
+    {
+      _id: 6,
+      title: "attend mock interviews for practice",
+      summary:
+        "use pramp to practice common technical and behavioral interview questions ",
+      status: "completed",
+      goal_tag: "interview prep",
     },
   ]);
 
@@ -93,11 +135,12 @@ const TaskBoard = () => {
           >
             <div className="card-body">
               <h2 className="card-title capitalize text-sm ">{todo.title}</h2>
-              <p className="text-xs text-gray-400">
-                {todo.summary}
-              </p>
+              <p className="text-xs text-gray-400">{todo.summary}</p>
               <div className="card-actions justify-start">
-                <button className="btn-sm rounded-md btn-primary text-xs capitalize">
+                <button
+                  className="btn-sm rounded-md btn-primary text-xs capitalize text-white"
+                  style={{ backgroundColor: getColorForGoalTag(todo.goal_tag) }}
+                >
                   {todo.goal_tag}
                 </button>
               </div>
@@ -131,7 +174,6 @@ const TaskBoard = () => {
 };
 
 export default TaskBoard;
-
 
 //TODO: MAKE APP RESPONSE UPTO LARGE SCREENS
 //TODO: MAKE EACH CARD TAG HAS A UNIQUE COLOR BASE ON THE GOAL TAG IN THE EVERY TASK

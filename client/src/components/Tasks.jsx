@@ -104,8 +104,18 @@ const TaskBoard = () => {
 
     setTasks(updatedTasks);
 
+    console.log(updatedTasks);
     return updatedTasks;
   };
+
+  const in_progress = tasks.filter(
+    (task) => task.status === "in-progress"
+  ).length;
+  const completed = tasks.filter((task) => task.status === "completed").length;
+  const not_started = tasks.filter(
+    (task) => task.status === "not-started"
+  ).length;
+  const in_review = tasks.filter((task) => task.status === "in-review").length;
 
   const renderColumn = (status) => (
     <div
@@ -117,7 +127,13 @@ const TaskBoard = () => {
         <div className="flex gap-3 items-center">
           <h2 className="uppercase text-center font-medium">{status}</h2>
           <div className="h-5 w-5 bg-[#E0EAF3] border rounded justify-center flex text-sm">
-            4
+            {status === "in-progress"
+              ? in_progress
+              : status === "completed"
+              ? completed
+              : status === "not-started"
+              ? not_started
+              : in_review}
           </div>
         </div>
         <div className=" border-2 rounded-md border-dashed h-6 w-6 border-[#c9d8e3] flex justify-center items-center">
@@ -126,6 +142,7 @@ const TaskBoard = () => {
       </div>
       {tasks
         .filter((task) => task.status === status)
+
         .map((todo) => (
           <div
             className="card bg-base-100 shadow-md rounded-md cursor-move mt-4"

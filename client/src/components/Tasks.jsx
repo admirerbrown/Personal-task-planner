@@ -1,99 +1,19 @@
 import React, { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
+import { getColorForGoalTag } from "../modules/colorGenerator";
+import { taskData } from "../db/sampleTask";
+import { onDragOver, onDragStart } from "../modules/drag_nd_Drop";
 
 const TaskBoard = () => {
-  function getRandomColor() {
-    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-  }
+  const [tasks, setTasks] = useState(taskData);
 
-  function clearLocalStorageOnRefresh() {
-    // Check if the page is being refreshed
-    window.onbeforeunload = function () {
-      localStorage.removeItem("colorMap");
-    };
-  }
+  const getStatusCount = (status) => tasks.filter(task => task.status === status).length;
 
-  // Call this function to set up the event handler
-  clearLocalStorageOnRefresh();
+  const in_progress = getStatusCount("in-progress");
+  const completed = getStatusCount("completed");
+  const not_started = getStatusCount("not-started");
+  const in_review = getStatusCount("in-review");
 
-  function getColorForGoalTag(goalTag) {
-    let colorMap;
-
-    // Retrieve colorMap from Local Storage or create a new one
-    const storedColorMap = localStorage.getItem("colorMap");
-    if (storedColorMap) {
-      colorMap = JSON.parse(storedColorMap);
-    } else {
-      colorMap = {};
-    }
-
-    if (!colorMap.hasOwnProperty(goalTag)) {
-      colorMap[goalTag] = getRandomColor();
-
-      localStorage.setItem("colorMap", JSON.stringify(colorMap));
-    }
-
-    return colorMap[goalTag];
-  }
-
-  const [tasks, setTasks] = useState([
-    {
-      _id: 1,
-      title: "complete the frontend architecture of the app",
-      summary:
-        "after choosing ui break the frontend tasks in features and milestones ",
-      status: "not-started",
-      goal_tag: "job search",
-    },
-    {
-      _id: 2,
-      title: "complete the backend architecture of the app",
-      summary:
-        "build the full backend using node.js and express ensure to take care of CORS",
-      status: "in-review",
-      goal_tag: "job search",
-    },
-    {
-      _id: 3,
-      title: "implement the UI/UX of the app",
-      summary:
-        "go through a list of task management ui's from dribble and choose an attractive design ",
-      status: "in-progress",
-      goal_tag: "freelance",
-    },
-    {
-      _id: 4,
-      title: "connect the frontend to the backend",
-      summary:
-        "make this fullstack app by ensuring proper communication between the frontend and backend.use axios for the frontend communication and also use redux for state management",
-      status: "not-started",
-      goal_tag: "job search",
-    },
-    {
-      _id: 5,
-      title: "Ask for code review from the community",
-      summary:
-        "seek code review from the community explaining the main features of the app and what could be improved or eliminated ",
-      status: "completed",
-      goal_tag: "freelance",
-    },
-    {
-      _id: 6,
-      title: "attend mock interviews for practice",
-      summary:
-        "use pramp to practice common technical and behavioral interview questions ",
-      status: "completed",
-      goal_tag: "interview prep",
-    },
-  ]);
-
-  const onDragOver = (ev) => {
-    ev.preventDefault();
-  };
-
-  const onDragStart = (ev, item) => {
-    ev.dataTransfer.setData("item", item._id);
-  };
 
   const onDrop = (ev, swimlane) => {
     const _movedTaskId = parseInt(ev.dataTransfer.getData("item"), 10);
@@ -103,19 +23,8 @@ const TaskBoard = () => {
     );
 
     setTasks(updatedTasks);
-
-    console.log(updatedTasks);
     return updatedTasks;
   };
-
-  const in_progress = tasks.filter(
-    (task) => task.status === "in-progress"
-  ).length;
-  const completed = tasks.filter((task) => task.status === "completed").length;
-  const not_started = tasks.filter(
-    (task) => task.status === "not-started"
-  ).length;
-  const in_review = tasks.filter((task) => task.status === "in-review").length;
 
   const renderColumn = (status) => (
     <div
@@ -123,7 +32,7 @@ const TaskBoard = () => {
       onDragOver={onDragOver}
       onDrop={(e) => onDrop(e, status)}
     >
-      <div className=" flex items-center justify-between  border-b-2   h-14">
+      <div className=" flex items-center justify-between border-b-2 h-14">
         <div className="flex gap-3 items-center">
           <h2 className="uppercase text-center font-medium">{status}</h2>
           <div className="h-5 w-5 bg-[#E0EAF3] border rounded justify-center flex text-sm">
@@ -142,7 +51,6 @@ const TaskBoard = () => {
       </div>
       {tasks
         .filter((task) => task.status === status)
-
         .map((todo) => (
           <div
             className="card bg-base-100 shadow-md rounded-md cursor-move mt-4"
@@ -168,7 +76,7 @@ const TaskBoard = () => {
   );
 
   return (
-    <div className="">
+    <div>
       <div className="m-10">
         <div className="banner-img w-full h-52 bg-slate-600 mb-7 rounded-lg object-cover">
           <img
@@ -192,5 +100,4 @@ const TaskBoard = () => {
 
 export default TaskBoard;
 
-//TODO: MAKE APP RESPONSE UPTO LARGE SCREENS
-//TODO: MAKE EACH CARD TAG HAS A UNIQUE COLOR BASE ON THE GOAL TAG IN THE EVERY TASK
+//TODO: fix when columns cards go out of screen height

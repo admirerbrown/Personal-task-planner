@@ -3,14 +3,13 @@ export const getRandomColor = () => {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 
-function clearLocalStorageOnRefresh() {
+export function clearLocalStorageOnRefresh() {
     // Check if the page is being refreshed
     window.onbeforeunload = function () {
         localStorage.removeItem("colorMap");
     };
 }
 
-// Call this function to set up the event handler
 clearLocalStorageOnRefresh();
 
 

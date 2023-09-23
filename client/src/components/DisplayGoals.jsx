@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { goalList } from "../db/goalData.js";
 const ShowGoals = () => {
   return (
@@ -13,20 +12,23 @@ const ShowGoals = () => {
         </div>
       </div>
       <div>
-        <YourComponent></YourComponent>
+        <ListOfGoals></ListOfGoals>
       </div>
     </div>
   );
 };
 
-const YourComponent = () => {
+const ListOfGoals = () => {
   const renderListItems = (header) => {
     return (
-      <div className="border">
-        <h2>{header}</h2>
-        <ul className="flex flex-col gap-3">
+      <div className="text-center grow">
+        <h2 className="mb-4 uppercase">{header}</h2>
+        <ul className="flex flex-col gap-3 w-full">
           {goalList.map((item, index) => (
-            <li key={index} className="flex border h-14 justify-start w-full items-center">
+            <li
+              key={index}
+              className="flex border w-full justify-start items-center p-3 shadow-sm bg-white rounded-sm"
+            >
               {item[header]}
             </li>
           ))}
@@ -40,15 +42,15 @@ const YourComponent = () => {
   }
 
   return (
-    <div className="flex text-black justify-between mx-10">
-      {renderListItems('title')}
-      {renderListItems('progress')}
-      {renderListItems('status')}
-      {renderListItems('category')}
-      {renderListItems('actions')}
+    <div className="flex text-black  mx-10">
+      {renderListItems("title")}
+      {renderListItems("progress")}
+      {renderListItems("status")}
+      {renderListItems("category")}
+      {renderListItems("action")}
+      {renderListItems("tasks")}
     </div>
   );
 };
-
 
 export default ShowGoals;

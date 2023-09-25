@@ -33,8 +33,8 @@ const ListOfGoals = () => {
   flex border w-full justify-start items-center p-3 shadow-sm bg-white rounded-sm 
   ${header === 'title' ? 'text-[#69bfd1] font-bold' : ''}
   ${item.status === "Planned" && header==='status'? "bg-[#fff6f4] text-[#fc8667]" : ""}
-  ${item.status === "Ongoing" && header==='progress'? "bg-[yellow] text-orange-700" : ""}
-  ${item.status === "completed" && header==='progress'? "bg-green-400 text-blue-200" : ""}
+  ${item.status === "Ongoing" && header==='progress'? "bg-[#d3deff] text-[#4e7afc]" : ""}
+  ${item.status === "completed" && header==='progress'? "bg-[#f0fcec] text-[#56d428]" : ""}
 `}
             >
               {item[header]}

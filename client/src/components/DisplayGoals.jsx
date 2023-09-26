@@ -1,8 +1,8 @@
-import React, { useState } from "react";
 import { goalList } from "../db/goalData.js";
+
 const ShowGoals = () => {
   return (
-    <div>
+    <div className="scroll-smooth overflow-auto h-screen">
       <div className="m-10">
         <div className="banner-img w-full h-52 bg-slate-600 mb-7 rounded-lg object-cover">
           <img
@@ -13,20 +13,31 @@ const ShowGoals = () => {
         </div>
       </div>
       <div>
-        <YourComponent></YourComponent>
+        <ListOfGoals></ListOfGoals>
       </div>
     </div>
   );
 };
 
-const YourComponent = () => {
+const ListOfGoals = () => {
   const renderListItems = (header) => {
     return (
-      <div className="border">
-        <h2>{header}</h2>
-        <ul className="flex flex-col gap-3">
+      <div className="text-center grow font-IBM-Plex-Sans text-[#394f72] text-sm font-semibold">
+        <h2 className="mb-4 uppercase text-left pl-3">{header}</h2>
+        <ul className="flex flex-col gap-3 w-full">
           {goalList.map((item, index) => (
-            <li key={index} className="flex border h-14 justify-start w-full items-center">
+            <li
+              key={index}
+              className={`
+                flex border w-full justify-start items-center p-3 shadow-sm bg-white rounded-sm 
+                ${header === 'title' ? 'text-[#69bfd1] font-bold lowercase' : 'uppercase'}
+                ${header === 'action' ? 'text-red-500 font-bold' : 'uppercase'}
+                ${item.status === "Planned" && header==='status'? 'bg-red-100 text-[#fc8667]' : ""}
+                ${item.status === "Ongoing" && header==='status'? 'bg-blue-100 text-[#4e7afc]' : ""}
+                ${item.status === "completed" && header==='status'? 'bg-green-100 text-[#56d428]': ""}
+                ${item.status === "completed" && header==='title'? 'line-through text-[#9aa6af]': ""}
+              `}
+            >
               {item[header]}
             </li>
           ))}
@@ -40,15 +51,15 @@ const YourComponent = () => {
   }
 
   return (
-    <div className="flex text-black justify-between mx-10">
-      {renderListItems('title')}
-      {renderListItems('progress')}
-      {renderListItems('status')}
-      {renderListItems('category')}
-      {renderListItems('actions')}
+    <div className="flex text-black  mx-10">
+      {renderListItems("title")}
+      {renderListItems("category")}
+      {renderListItems("action")}
+      {renderListItems("tasks")}
+      {renderListItems("progress")}
+      {renderListItems("status")}
     </div>
   );
 };
-
 
 export default ShowGoals;

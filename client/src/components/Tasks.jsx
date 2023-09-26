@@ -7,13 +7,13 @@ import { onDragOver, onDragStart } from "../modules/drag_nd_Drop";
 const TaskBoard = () => {
   const [tasks, setTasks] = useState(taskData);
 
-  const getStatusCount = (status) => tasks.filter(task => task.status === status).length;
+  const getStatusCount = (status) =>
+    tasks.filter((task) => task.status === status).length;
 
   const in_progress = getStatusCount("in-progress");
   const completed = getStatusCount("completed");
   const not_started = getStatusCount("not-started");
   const in_review = getStatusCount("in-review");
-
 
   const onDrop = (ev, swimlane) => {
     const _movedTaskId = parseInt(ev.dataTransfer.getData("item"), 10);
@@ -28,11 +28,9 @@ const TaskBoard = () => {
 
   const renderColumn = (status) => (
     <div
-      className={`${status} flex flex-col min-h-screen mx-5 font-IBM-Plex-Sans text-black`}
-      onDragOver={onDragOver}
-      onDrop={(e) => onDrop(e, status)}
+      className={`${status} flex flex-col mx-5 font-IBM-Plex-Sans text-black `}
     >
-      <div className=" flex items-center justify-between border-b-2 h-14">
+      <div className=" flex items-center justify-between border-b-2 h-14 ">
         <div className="flex gap-3 items-center">
           <h2 className="uppercase text-center font-medium">{status}</h2>
           <div className="h-5 w-5 bg-[#E0EAF3] border rounded justify-center flex text-sm">
@@ -58,7 +56,7 @@ const TaskBoard = () => {
             onDragStart={(e) => onDragStart(e, todo)}
             key={todo._id}
           >
-            <div className="card-body">
+            <div className="card-body shrink flex ">
               <h2 className="card-title capitalize text-sm ">{todo.title}</h2>
               <p className="text-xs text-gray-400">{todo.summary}</p>
               <div className="card-actions justify-start">
@@ -76,7 +74,7 @@ const TaskBoard = () => {
   );
 
   return (
-    <div>
+    <div className="scroll-smooth overflow-auto h-screen">
       <div className="m-10">
         <div className="banner-img w-full h-52 bg-slate-600 mb-7 rounded-lg object-cover">
           <img
@@ -87,10 +85,17 @@ const TaskBoard = () => {
         </div>
       </div>
 
-      <div className="h-screen grid grid-cols-4 m-5">
+      <div className="grid grid-cols-4 m-5">
         {["not-started", "in-progress", "in-review", "completed"].map(
           (status) => (
-            <React.Fragment key={status}>{renderColumn(status)}</React.Fragment>
+            <div
+              onDragOver={onDragOver}
+              onDrop={(e) => onDrop(e, status)}
+              key={status}
+              className="overflow-y-auto scroll-smooth h-screen"
+            >
+              {renderColumn(status)}
+            </div>
           )
         )}
       </div>
@@ -100,4 +105,3 @@ const TaskBoard = () => {
 
 export default TaskBoard;
 
-//TODO: fix when columns cards go out of screen height

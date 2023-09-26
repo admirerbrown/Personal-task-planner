@@ -10,7 +10,7 @@ const NavBar = () => {
   const location = useLocation();
 
   return (
-    <div className="hidden xl:flex flex-col items-start pl-5 panel min-h-screen w-72 border shadow-sm bg-[rgb(255,255,255)] font-IBM-Plex-Sans ">
+    <div className="hidden xl:flex flex-col items-start pl-5 panel h-screen w-72 border shadow-sm bg-[rgb(255,255,255)] font-IBM-Plex-Sans ">
       <div className="flex items-center w-full flex-col gap-5 mb-5">
         <div className="logo h-20 w-20 object-contain mt-12 shadow-md">
           <img

@@ -22,20 +22,21 @@ const ShowGoals = () => {
 const ListOfGoals = () => {
   const renderListItems = (header) => {
     return (
-      <div className="text-center grow font-IBM-Plex-Sans text-[#394f72] font-semibold">
+      <div className="text-center grow font-IBM-Plex-Sans text-[#394f72] text-sm font-semibold">
         <h2 className="mb-4 uppercase text-left pl-3">{header}</h2>
         <ul className="flex flex-col gap-3 w-full">
           {goalList.map((item, index) => (
             <li
               key={index}
-              // className={`flex border w-full justify-start items-center p-3  shadow-sm bg-white rounded-sm ${header === 'title' ? 'text-[#69bfd1] font-bold' : ''}`}
               className={`
-  flex border w-full justify-start items-center p-3 shadow-sm bg-white rounded-sm 
-  ${header === 'title' ? 'text-[#69bfd1] font-bold' : ''}
-  ${item.status === "Planned" && header==='status'? "bg-[#fff6f4] text-[#fc8667]" : ""}
-  ${item.status === "Ongoing" && header==='progress'? "bg-[#d3deff] text-[#4e7afc]" : ""}
-  ${item.status === "completed" && header==='progress'? "bg-[#f0fcec] text-[#56d428]" : ""}
-`}
+                flex border w-full justify-start items-center p-3 shadow-sm bg-white rounded-sm 
+                ${header === 'title' ? 'text-[#69bfd1] font-bold lowercase' : 'uppercase'}
+                ${header === 'action' ? 'text-red-500 font-bold' : 'uppercase'}
+                ${item.status === "Planned" && header==='status'? 'bg-red-100 text-[#fc8667]' : ""}
+                ${item.status === "Ongoing" && header==='status'? 'bg-blue-100 text-[#4e7afc]' : ""}
+                ${item.status === "completed" && header==='status'? 'bg-green-100 text-[#56d428]': ""}
+                ${item.status === "completed" && header==='title'? 'line-through text-[#9aa6af]': ""}
+              `}
             >
               {item[header]}
             </li>
@@ -52,11 +53,11 @@ const ListOfGoals = () => {
   return (
     <div className="flex text-black  mx-10">
       {renderListItems("title")}
-      {renderListItems("progress")}
-      {renderListItems("status")}
       {renderListItems("category")}
       {renderListItems("action")}
       {renderListItems("tasks")}
+      {renderListItems("progress")}
+      {renderListItems("status")}
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import { goalList } from "../db/goalData.js";
-import { IoMdAdd } from "react-icons/io";
 import { RiEqualizerFill } from "react-icons/ri";
 import React, { useState } from "react";
+import Modal from './Modal';
 
-const ShowGoals = () => {
+const RenderGoals = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
 
   const filteredGoals = goalList.filter((goal) => {
@@ -25,6 +25,7 @@ const ShowGoals = () => {
     setSelectedFilter(event.target.value);
   };
 
+  
   return (
     <div className="scroll-smooth overflow-auto h-screen">
       <div className="m-10">
@@ -51,8 +52,9 @@ const ShowGoals = () => {
             {filterOptions.map((option) => (
               <li
                 key={option.value}
-                className={`hover:bg-[rgb(244,248,251)] ${selectedFilter === option.value ? "bg-[rgb(244,248,251)]" : ""
-                  }`}
+                className={`hover:bg-[rgb(244,248,251)] ${
+                  selectedFilter === option.value ? "bg-[rgb(244,248,251)]" : ""
+                }`}
               >
                 <a
                   href="#home"
@@ -67,9 +69,7 @@ const ShowGoals = () => {
           </ul>
         </div>
 
-        <button className="btn btn-sm  rounded-md px-4 text-white flex gap-3 bg-[#3c80fd] hover:bg-[#3c80fd] hover:border-none">
-          <IoMdAdd></IoMdAdd>Add Goal
-        </button>
+        <Modal></Modal>
       </div>
 
       <div>
@@ -88,12 +88,32 @@ const ListOfGoals = ({ goals }) => {
           {goals.map((item, index) => (
             <li
               key={index}
-              className={`flex border w-full justify-start items-center p-3 shadow-sm bg-white rounded-sm ${header === "title" ? "text-[#69bfd1] font-bold lowercase" : "uppercase"}
+              className={`flex border w-full justify-start items-center p-3 shadow-sm bg-white rounded-sm ${
+                header === "title"
+                  ? "text-[#69bfd1] font-bold lowercase"
+                  : "uppercase"
+              }
                 ${header === "action" ? "text-red-500 font-bold" : "uppercase"}
-                ${item.status === "Planned" && header === "status" ? "bg-[#fff6f4] text-[#fc8667]" : ""}
-                ${item.status === "Ongoing" && header === "status" ? "bg-[#d3deff] text-[#4e7afc]" : ""}
-                ${item.status === "completed" && header === "status" ? "bg-[#f0fcec] text-[#56d428]" : ""}
-                ${item.status === "completed" && header === "title" ? "line-through text-[#9aa6af]" : ""}
+                ${
+                  item.status === "Planned" && header === "status"
+                    ? "bg-red-50 text-[#fc8667]"
+                    : ""
+                }
+                ${
+                  item.status === "Ongoing" && header === "status"
+                    ? "bg-blue-100 text-[#4e7afc]"
+                    : ""
+                }
+                ${
+                  item.status === "completed" && header === "status"
+                    ? "bg-green-100 text-[#56d428]"
+                    : ""
+                }
+                ${
+                  item.status === "completed" && header === "title"
+                    ? "line-through text-[#9aa6af]"
+                    : ""
+                }
               `}
             >
               {item[header]}
@@ -120,7 +140,6 @@ const ListOfGoals = ({ goals }) => {
   );
 };
 
-export default ShowGoals;
+export default RenderGoals;
 
-//TODO: CHANGE THE NAME SHOW-GOALS TO RENDER-GOALS-PAGE
 //TODO: MAKE THE ADD GOAL A MODAL

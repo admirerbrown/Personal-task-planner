@@ -100,9 +100,7 @@ const ListOfGoals = ({ goals }) => {
                     : ""
                 }
                 ${
-                  item.status === "Ongoing" && header === "status"
-                    ? "bg-blue-100 text-[#4e7afc]"
-                    : ""
+                  item.status === "Ongoing" && header === "status" ? "bg-blue-100 text-[#4e7afc]" : ""
                 }
                 ${
                   item.status === "completed" && header === "status"
@@ -142,4 +140,3 @@ const ListOfGoals = ({ goals }) => {
 
 export default RenderGoals;
 
-//TODO: MAKE THE ADD GOAL A MODAL

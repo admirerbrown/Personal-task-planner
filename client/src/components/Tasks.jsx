@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { IoMdAdd } from "react-icons/io";
+
 import { getColorForGoalTag } from "../modules/colorGenerator";
 import { taskData } from "../db/sampleTask";
 import { onDragOver, onDragStart } from "../modules/drag_nd_Drop";
+import {TaskModal} from './Modal'
 
 const TaskBoard = () => {
   const [tasks, setTasks] = useState(taskData);
@@ -43,9 +44,7 @@ const TaskBoard = () => {
               : in_review}
           </div>
         </div>
-        <div className=" border-2 rounded-md border-dashed h-6 w-6 border-[#c9d8e3] flex justify-center items-center">
-          <IoMdAdd className="text-sm"></IoMdAdd>
-        </div>
+        <TaskModal></TaskModal>
       </div>
       {tasks
         .filter((task) => task.status === status)

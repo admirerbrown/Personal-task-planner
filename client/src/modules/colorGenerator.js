@@ -1,4 +1,3 @@
-
 export const getRandomColor = () => {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
@@ -16,7 +15,6 @@ clearLocalStorageOnRefresh();
 export const getColorForGoalTag = (goalTag) => {
     let colorMap;
 
-    // Retrieve colorMap from Local Storage or create a new one
     const storedColorMap = localStorage.getItem("colorMap");
     if (storedColorMap) {
         colorMap = JSON.parse(storedColorMap);

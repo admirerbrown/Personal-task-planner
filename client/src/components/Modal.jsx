@@ -42,7 +42,7 @@ export default function GoalModal() {
                   <form
                     className="grid grid-cols-1 gap-4 w-[400px] font-IBM-Plex-Sans text-[#394f72]"
                     action=""
-                    method="POST"
+                    method=""
                     onSubmit={formHandler}
                   >
                     <div>
@@ -75,7 +75,7 @@ export default function GoalModal() {
                       >
                         <option value="">Select a category</option>
                         <option value="text">job search</option>
-                        {/* Add category options here */}
+                        
                       </select>
                     </div>
                     <div>
@@ -159,7 +159,7 @@ export function TaskModal() {
                   <form
                     className="grid grid-cols-1 gap-4 w-[400px] font-IBM-Plex-Sans text-[#394f72]"
                     action=""
-                    method="POST"
+                    method=""
                     onSubmit={formHandler}
                   >
                     <div>
@@ -233,8 +233,6 @@ export function TaskModal() {
                         <option value="Not Started">Not Started</option>
                         <option value="In Review">In Review</option>
                         <option value="Completed">Completed</option>
-
-                        {/* Add category options here */}
                       </select>
                     </div>
                     <div>

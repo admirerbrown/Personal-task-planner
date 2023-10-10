@@ -90,27 +90,22 @@ const ListOfGoals = ({ goals }) => {
               key={index}
               className={`flex border w-full justify-start items-center p-3 shadow-sm bg-white rounded-sm ${
                 header === "title"
-                  ? "text-[#69bfd1] font-bold lowercase"
-                  : "uppercase"
-              }
+                  ? "text-[#69bfd1] font-bold lowercase": "uppercase"}
                 ${header === "action" ? "text-red-500 font-bold" : "uppercase"}
                 ${
                   item.status === "Planned" && header === "status"
-                    ? "bg-red-50 text-[#fc8667]"
-                    : ""
+                    ? "bg-red-50 text-[#fc8667]": ""
                 }
                 ${
                   item.status === "Ongoing" && header === "status" ? "bg-blue-100 text-[#4e7afc]" : ""
                 }
                 ${
                   item.status === "completed" && header === "status"
-                    ? "bg-green-100 text-[#56d428]"
-                    : ""
+                    ? "bg-green-100 text-[#56d428]": ""
                 }
                 ${
                   item.status === "completed" && header === "title"
-                    ? "line-through text-[#9aa6af]"
-                    : ""
+                    ? "line-through text-[#9aa6af]": ""
                 }
               `}
             >

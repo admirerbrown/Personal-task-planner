@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { getColorForGoalTag } from "../modules/colorGenerator";
 import { taskData } from "../db/sampleTask";
 import { onDragOver, onDragStart } from "../modules/drag_nd_Drop";
